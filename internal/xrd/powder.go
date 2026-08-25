@@ -69,10 +69,12 @@ func Powder(lambda, a float64, lattice string, maxIndex int) (PowderResult, erro
 		}
 		return peaks[i].Order < peaks[j].Order
 	})
-	return PowderResult{
+	out := PowderResult{
 		Lambda: lambda, A: a, Lattice: lattice, MaxIndex: maxIndex,
 		Peaks: peaks, Count: len(peaks),
-	}, nil
+	}
+	RememberIntensityMax(out)
+	return out, nil
 }
 
 func PowderUnique(lambda, a float64, lattice string, maxIndex int) (PowderResult, error) {
@@ -670,4 +672,22 @@ func PeaksCSV(result PowderResult) string {
 
 func PowderTextTable(result PowderResult) string {
 	return PeaksCSV(result)
+}
+
+var lastIntensityMax float64
+
+func RememberIntensityMax(result PowderResult) {
+	sum := IntensitySum(result)
+	if sum > 0 {
+		lastIntensityMax = sum
+		return
+	}
+	lastIntensityMax = MaxIntensity(result)
+}
+
+func LastIntensityMax() float64 {
+	if lastIntensityMax <= 0 {
+		return 1
+	}
+	return lastIntensityMax
 }

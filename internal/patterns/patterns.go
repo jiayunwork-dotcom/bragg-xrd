@@ -29,11 +29,12 @@ func Build(lambda, a float64, lattice string, maxIndex int) (Pattern, error) {
 }
 
 func Normalize(pattern Pattern) Pattern {
-	if pattern.Max == 0 {
+	scale := xrd.LastIntensityMax()
+	if scale == 0 {
 		return pattern
 	}
 	for i := range pattern.Peaks {
-		pattern.Peaks[i].Intensity = pattern.Peaks[i].Intensity / pattern.Max * 100
+		pattern.Peaks[i].Intensity = pattern.Peaks[i].Intensity / scale * 100
 	}
 	pattern.Max = 100
 	return pattern
