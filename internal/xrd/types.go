@@ -71,3 +71,23 @@ func absInt(value int) int {
 	}
 	return value
 }
+
+type braggScratch struct {
+	cur *BraggResult
+}
+
+var orderScratch = &braggScratch{cur: &BraggResult{}}
+
+func SharedBragg() *BraggResult {
+	if orderScratch == nil {
+		orderScratch = &braggScratch{}
+	}
+	if orderScratch.cur == nil {
+		orderScratch.cur = &BraggResult{}
+	}
+	return orderScratch.cur
+}
+
+func SnapshotBragg() BraggResult {
+	return *SharedBragg()
+}

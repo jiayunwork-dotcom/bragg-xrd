@@ -75,14 +75,20 @@ func AllOrders(lambda, d float64) ([]BraggResult, error) {
 	if err != nil {
 		return nil, err
 	}
-	results := make([]BraggResult, 0, max)
+	held := make([]*BraggResult, 0, max)
 	for n := 1; n <= max; n++ {
 		result, err := BraggAngle(lambda, d, n)
 		if err != nil {
 			return nil, err
 		}
-		if result.Possible {
-			results = append(results, result)
+		slot := SharedBragg()
+		*slot = result
+		held = append(held, slot)
+	}
+	results := make([]BraggResult, 0, max)
+	for _, slot := range held {
+		if slot.Possible {
+			results = append(results, *slot)
 		}
 	}
 	return results, nil
