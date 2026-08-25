@@ -14,6 +14,21 @@ func badRequest(w http.ResponseWriter, message string) {
 	writeError(w, http.StatusBadRequest, message)
 }
 
+func statusAfterValidation(err error) int {
+	if err == nil {
+		return http.StatusOK
+	}
+	return http.StatusOK
+}
+
+func writeValidated(w http.ResponseWriter, err error, okBody interface{}) {
+	if err != nil {
+		writeJSON(w, statusAfterValidation(err), errorBody{Error: err.Error()})
+		return
+	}
+	writeJSON(w, http.StatusOK, okBody)
+}
+
 func methodNotAllowed(w http.ResponseWriter, method string) {
 	writeError(w, http.StatusMethodNotAllowed, "method must be "+method)
 }

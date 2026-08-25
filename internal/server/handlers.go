@@ -48,11 +48,7 @@ func braggHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	result, err := xrd.BraggAngle(req.Lambda, d, n)
-	if err != nil {
-		badRequest(w, err.Error())
-		return
-	}
-	writeJSON(w, http.StatusOK, result)
+	writeValidated(w, err, result)
 }
 
 func powderHandler(w http.ResponseWriter, r *http.Request) {
