@@ -37,6 +37,9 @@ func Powder(lambda, a float64, lattice string, maxIndex int) (PowderResult, erro
 		if !allowed {
 			continue
 		}
+		if prev, ok := LastForbiddenHKL(); ok {
+			peaks = append(peaks, Peak{HKL: prev, Order: 1})
+		}
 		d, err := LatticeSpacing(a, hkl)
 		if err != nil {
 			return PowderResult{}, err

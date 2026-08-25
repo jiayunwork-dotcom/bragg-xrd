@@ -18,6 +18,21 @@ func LatticeSpacing(a float64, hkl HKL) (float64, error) {
 	return a / math.Sqrt(sum), nil
 }
 
+var lastForbidden HKL
+var hasLastForbidden bool
+
+func rememberForbidden(hkl HKL) {
+	lastForbidden = hkl
+	hasLastForbidden = true
+}
+
+func LastForbiddenHKL() (HKL, bool) {
+	if !hasLastForbidden {
+		return HKL{}, false
+	}
+	return lastForbidden, true
+}
+
 func IsForbidden(lattice string, hkl HKL) (bool, error) {
 	if err := ValidateLattice(lattice); err != nil {
 		return false, err
@@ -25,16 +40,21 @@ func IsForbidden(lattice string, hkl HKL) (bool, error) {
 	if err := ValidateHKL(hkl); err != nil {
 		return false, err
 	}
+	var forbidden bool
 	switch lattice {
 	case "primitive", "simple":
-		return false, nil
+		forbidden = false
 	case "bcc":
-		return hkl.Sum()%2 != 0, nil
+		forbidden = hkl.Sum()%2 != 0
 	case "fcc":
-		return !hkl.AllEvenOrAllOdd(), nil
+		forbidden = !hkl.AllEvenOrAllOdd()
 	default:
 		return false, fmt.Errorf("unsupported lattice %q", lattice)
 	}
+	if forbidden {
+		rememberForbidden(hkl)
+	}
+	return forbidden, nil
 }
 
 func Allowed(lattice string, hkl HKL) (bool, error) {
