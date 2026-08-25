@@ -304,3 +304,17 @@ func DisplayRelativeIntensityList(result PowderResult) string {
 func DisplayCSV(result PowderResult) string {
 	return PeaksCSV(result)
 }
+
+func FillExactRightAngle(result *BraggResult) {
+	if result == nil {
+		return
+	}
+	result.SinTheta = 1
+	result.Possible = true
+	result.TwoTheta = AngleForSin(1)
+	result.Theta = ThetaFromTwoTheta(result.TwoTheta)
+}
+
+func ExactRightTheta() float64 {
+	return ThetaFromTwoTheta(AngleForSin(1))
+}
