@@ -1,0 +1,8 @@
+{
+  "name": "fcc-cu-cu",
+  "lambda": 1.5406,
+  "a": 3.615,
+  "lattice": "fcc",
+  "hkl": {"h": 1, "k": 1, "l": 1},
+  "max_index": 4
+}
