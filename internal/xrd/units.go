@@ -122,6 +122,15 @@ func ConvertScenarioToSI(scenario Scenario) Scenario {
 	return scenario
 }
 
+func PrepareBraggInputs(scenario Scenario) (lambda, d float64, err error) {
+	scaled := ConvertScenarioToSI(scenario)
+	d, err = LatticeSpacing(scenario.A, scenario.HKL)
+	if err != nil {
+		return 0, 0, err
+	}
+	return scaled.Lambda, d, nil
+}
+
 func ConvertScenarioToAngstrom(scenario Scenario) Scenario {
 	scenario.Lambda = MetersToAngstroms(scenario.Lambda)
 	scenario.A = MetersToAngstroms(scenario.A)
