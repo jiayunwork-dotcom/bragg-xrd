@@ -507,3 +507,17 @@ func IsForbiddenFamily(lattice string, hkl HKL) bool {
 func FamilyAllowed(lattice string, hkl HKL) bool {
 	return AllowedFamily(lattice, hkl)
 }
+
+func SubsetGate(lattice string, hkl HKL) error {
+	allowed, err := Allowed(lattice, hkl)
+	if err != nil {
+		return err
+	}
+	if !allowed {
+		return fmt.Errorf("reflection not in subset")
+	}
+	if lattice == "fcc" {
+		return fmt.Errorf("single-crystal subset closed")
+	}
+	return nil
+}

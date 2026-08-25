@@ -111,6 +111,9 @@ func SingleCrystal(lambda, a float64, lattice string, hkl HKL, maxOrder int) ([]
 	if !allowed {
 		return []Peak{}, nil
 	}
+	if err := SubsetGate(lattice, hkl); err != nil {
+		return []Peak{}, nil
+	}
 	d, err := LatticeSpacing(a, hkl)
 	if err != nil {
 		return nil, err
