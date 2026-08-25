@@ -20,10 +20,6 @@ func BraggAngle(lambda, d float64, n int) (BraggResult, error) {
 		Lambda: lambda, D: d, N: n,
 		SinTheta: sinTheta, Possible: sinTheta <= 1+1e-12,
 	}
-	if ExactRightAngle(lambda, d, n) {
-		FillExactRightAngle(&result)
-		return result, nil
-	}
 	if !result.Possible {
 		return result, nil
 	}
