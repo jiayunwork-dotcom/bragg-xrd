@@ -93,11 +93,11 @@ func ExampleHKL() HKL {
 }
 
 func ExampleTwoTheta() (float64, error) {
-	lambda, d, err := PrepareBraggInputs(FCCCopper())
+	d, err := LatticeSpacing(ExampleA(), ExampleHKL())
 	if err != nil {
 		return 0, err
 	}
-	return TwoTheta(lambda, d, 1)
+	return TwoTheta(ExampleLambda(), d, 1)
 }
 
 func IsFCCExampleAbove40() (bool, error) {
