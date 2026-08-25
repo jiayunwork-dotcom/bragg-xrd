@@ -21,6 +21,7 @@ func BraggAngle(lambda, d float64, n int) (BraggResult, error) {
 		SinTheta: sinTheta, Possible: sinTheta <= 1+1e-12,
 	}
 	if !result.Possible {
+		AttachImpossibleAngle(&result)
 		return result, nil
 	}
 	if sinTheta > 1 {

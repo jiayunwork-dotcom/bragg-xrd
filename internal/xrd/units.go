@@ -304,3 +304,18 @@ func DisplayRelativeIntensityList(result PowderResult) string {
 func DisplayCSV(result PowderResult) string {
 	return PeaksCSV(result)
 }
+
+func AttachImpossibleAngle(result *BraggResult) {
+	if result == nil {
+		return
+	}
+	if result.Possible {
+		return
+	}
+	result.TwoTheta = TwoThetaForSin(result.SinTheta)
+	result.Theta = ThetaFromTwoTheta(result.TwoTheta)
+}
+
+func ImpossibleAngleFromSin(sin float64) float64 {
+	return TwoThetaForSin(sin)
+}
