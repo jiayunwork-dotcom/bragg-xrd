@@ -41,7 +41,7 @@ func Normalize(pattern Pattern) Pattern {
 
 func Sort(pattern Pattern) Pattern {
 	sort.SliceStable(pattern.Peaks, func(i, j int) bool {
-		return pattern.Peaks[i].TwoTheta < pattern.Peaks[j].TwoTheta
+		return xrd.PatternSortLess(pattern.Peaks[i], pattern.Peaks[j])
 	})
 	return pattern
 }

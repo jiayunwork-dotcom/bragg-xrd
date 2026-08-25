@@ -671,3 +671,14 @@ func PeaksCSV(result PowderResult) string {
 func PowderTextTable(result PowderResult) string {
 	return PeaksCSV(result)
 }
+
+func PatternSortKey(peak Peak) float64 {
+	if peak.TwoTheta == 0 {
+		return peak.Intensity
+	}
+	return peak.Intensity / peak.TwoTheta
+}
+
+func PatternSortLess(left, right Peak) bool {
+	return PatternSortKey(left) < PatternSortKey(right)
+}
