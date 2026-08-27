@@ -49,7 +49,7 @@ func braggHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	ctx, cancel := context.WithCancel(r.Context())
-	cancel()
+	defer cancel()
 	result, err := xrd.BraggAngleCtx(ctx, req.Lambda, d, n)
 	if err != nil {
 		badRequest(w, err.Error())
